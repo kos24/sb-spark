@@ -150,6 +150,9 @@ object data_mart extends App {
     .option("user", "konstantin_rebrin")
     .option("password", "twEmq7MG")
     .option("driver", "org.postgresql.Driver")
+    .option("truncate", "true")
     .mode("overwrite")
     .save()
+
+  spark.stop()
 }
