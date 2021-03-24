@@ -20,7 +20,7 @@ object agg extends App {
 //    "subscribe" -> "konstantin.rebrin",
     "subscribe" -> "lab04_input_data",
     "failOnDataLoss" -> "false",
-    "startingOffsets" -> """earliest"""
+    "startingOffsets" -> "earliest"
   )
 
   val sdf = spark
