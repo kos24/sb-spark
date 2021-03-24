@@ -10,6 +10,7 @@ object agg extends App {
 
   val spark = SparkSession
     .builder()
+    .master("yarn")
     .getOrCreate()
 
   import spark.implicits._
