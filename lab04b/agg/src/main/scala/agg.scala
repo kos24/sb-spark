@@ -16,7 +16,7 @@ object agg extends App {
 
   val kafkaParams = Map(
     "kafka.bootstrap.servers" -> "spark-master-1:6667",
-    "subscribe" -> "konstantin_rebrin",
+    "subscribe" -> "konstantin.rebrin",
     "startingOffsets" -> """earliest"""
   )
 
@@ -76,7 +76,7 @@ object agg extends App {
     .trigger(Trigger.ProcessingTime("5 seconds"))
     .option("kafka.bootstrap.servers", "spark-master-1:6667")
     .option("topic", "konstantin_rebrin_lab04b_out")
-    .option("checkpointLocation", "/user/konstantin.rebrin/chk/kosntantin_rebrin")
+    .option("checkpointLocation", "/user/konstantin.rebrin/chk/konstantin_rebrin")
     .outputMode("update")
     .start()
 
