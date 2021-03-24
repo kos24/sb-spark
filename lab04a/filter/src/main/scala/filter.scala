@@ -24,7 +24,7 @@ object filter extends App {
     .option("failOnDataLoss", "false")
     .option("startingOffsets",
       if (offset == "earliest") s"earliest"
-      else s""" {"${topic_name}": {"0":${offset}}""")
+      else s""" {"${topic_name}": {"0":${offset}}}""")
     .load()
 
   val jsonString = kafkaLogs.select('value.cast("string")).as[String]
