@@ -69,8 +69,9 @@ object agg extends App {
       col("aov")
     )
 
-  val writer = result
-    .toJSON
+  val jsoned = result.select(to_json(struct("*")).as("value"))
+
+  val writer = jsoned
     .writeStream
     .format("kafka")
     .trigger(Trigger.ProcessingTime("5 seconds"))
