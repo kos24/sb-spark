@@ -85,5 +85,5 @@ object agg extends App {
     .outputMode("update")
     .start()
 
-//  writer.awaitTermination()
+  writer.awaitTermination()
 }
