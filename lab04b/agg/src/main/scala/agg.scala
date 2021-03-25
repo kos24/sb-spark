@@ -17,10 +17,10 @@ object agg extends App {
 
   val kafkaParams = Map(
     "kafka.bootstrap.servers" -> "spark-master-1:6667",
-//    "subscribe" -> "konstantin.rebrin",
-    "subscribe" -> "lab04_input_data",
-    "failOnDataLoss" -> "false",
-    "startingOffsets" -> "earliest"
+    "subscribe" -> "konstantin.rebrin",
+//    "subscribe" -> "lab04_input_data",
+    "startingOffsets" -> """earliest""",
+//    "maxOffsetsPerTrigger" -> "10"
   )
 
   val sdf = spark
