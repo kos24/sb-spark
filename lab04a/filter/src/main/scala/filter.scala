@@ -1,6 +1,8 @@
 
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
+
 import java.time.format.DateTimeFormatter
 import java.time.{Instant, ZoneId, ZonedDateTime}
 
@@ -41,7 +43,9 @@ object filter extends App {
   }
   }
 
-  val logsWithDate = logsParsed.withColumn("date", addTime('timestamp))
+//  val logsWithDate = logsParsed.withColumn("date", addTime('timestamp))
+//    .withColumn("p_date", 'date)
+  val logsWithDate = logsParsed.withColumn("date", date_format(($"timestamp" / 1000).cast(TimestampType), "yyyyMMdd"))
     .withColumn("p_date", 'date)
 
   logsWithDate
