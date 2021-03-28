@@ -9,6 +9,7 @@ object filter extends App {
   val spark = SparkSession.builder()
     .appName("Lab04")
     .master("local[1]")
+    .config("spark.sql.session.timeZone", "UTC")
     .getOrCreate()
 
   import spark.implicits._
