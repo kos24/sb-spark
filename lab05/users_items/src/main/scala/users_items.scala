@@ -10,6 +10,7 @@ object users_items extends App {
   val spark = SparkSession.builder()
     .appName("Lab05")
     .master("yarn")
+    .config("spark.sql.session.timeZone", "UTC")
     .getOrCreate()
 
   import spark.implicits._
