@@ -20,20 +20,21 @@ object users_items extends App {
   val output_dir = spark.conf.get("spark.users_items.output_dir")
 
 
-  val jsonSchema = StructType(Array(
-    StructField("category", StringType),
-    StructField("event_type", StringType),
-    StructField("item_id", StringType),
-    StructField("item_price", LongType),
-    StructField("timestamp", LongType),
-    StructField("uid", StringType),
-    StructField("date", StringType)
-  ))
+//  val jsonSchema = StructType(Array(
+//    StructField("category", StringType),
+//    StructField("event_type", StringType),
+//    StructField("item_id", StringType),
+//    StructField("item_price", LongType),
+//    StructField("timestamp", LongType),
+//    StructField("uid", StringType),
+//    StructField("date", StringType)
+//  ))
 
   //reading buy_items
   val buyLogs = spark
     .read
-    .schema(jsonSchema)
+    .format("json")
+//    .schema(jsonSchema)
     .json(input_dir + "/buy/*")
     .na.drop("Any", "uid" :: Nil)
     .filter('uid =!= "")
@@ -61,7 +62,8 @@ object users_items extends App {
   //reading view_items
   val viewLogs = spark
     .read
-    .schema(jsonSchema)
+    .format("json")
+//    .schema(jsonSchema)
     .json(input_dir + "/view/*")
     .na.drop("Any", "uid" :: Nil)
     .filter('uid =!= "")
