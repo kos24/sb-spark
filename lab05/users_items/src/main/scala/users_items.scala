@@ -126,7 +126,18 @@ object users_items extends App {
       .na.drop("Any", "uid" :: Nil)
       .filter('uid =!= "")
 
-    val appendedDf = users_items.union(result)
+    val resultCols = result.columns.toSet
+    val users_itemsCols = users_items.columns.toSet
+    val total = resultCols ++ users_itemsCols
+
+    def append(cols: Set[String], total: Set[String]) = {
+      total.toList.map(x => x match {
+        case x if cols.contains(x) => col(x)
+        case _ => lit(0).as(x)
+      })
+    }
+
+    val appendedDf = result.select(append(resultCols, total): _*).union(users_items.select(append(users_itemsCols, total): _*))
 
     appendedDf
       .write
