@@ -20,21 +20,21 @@ object users_items extends App {
   val output_dir = spark.conf.get("spark.users_items.output_dir")
 
 
-//  val jsonSchema = StructType(Array(
-//    StructField("category", StringType),
-//    StructField("event_type", StringType),
-//    StructField("item_id", StringType),
-//    StructField("item_price", LongType),
-//    StructField("timestamp", LongType),
-//    StructField("uid", StringType),
-//    StructField("date", StringType)
-//  ))
+  //  val jsonSchema = StructType(Array(
+  //    StructField("category", StringType),
+  //    StructField("event_type", StringType),
+  //    StructField("item_id", StringType),
+  //    StructField("item_price", LongType),
+  //    StructField("timestamp", LongType),
+  //    StructField("uid", StringType),
+  //    StructField("date", StringType)
+  //  ))
 
   //reading buy_items
   val buyLogs = spark
     .read
     .format("json")
-//    .schema(jsonSchema)
+    //    .schema(jsonSchema)
     .json(input_dir + "/buy/*")
     .na.drop("Any", "uid" :: Nil)
     .filter('uid =!= "")
@@ -63,7 +63,7 @@ object users_items extends App {
   val viewLogs = spark
     .read
     .format("json")
-//    .schema(jsonSchema)
+    //    .schema(jsonSchema)
     .json(input_dir + "/view/*")
     .na.drop("Any", "uid" :: Nil)
     .filter('uid =!= "")
@@ -99,28 +99,30 @@ object users_items extends App {
   val result = viewLogsPivot.join(buyLogsPivot, Seq("uid"), "full").na.fill(0)
 
   //checking if visits folder not empty
-  val hdfsFolder = new Path(input_dir)
-  val hdfs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+  //  val hdfsFolder = new Path(input_dir)
+  //  val hdfs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+  //
+  //  val hdfsFile = hdfs
+  //    .listStatus(hdfsFolder)
+  //    .map(_.getPath)
+  //    .filter(_.getName.startsWith("20"))
+  //    .map(_.toString.split("/").lastOption)
+  //
+  //  val intArray = hdfsFile.flatMap(s => Try(s.getOrElse("").toInt).toOption)
+  //
+  //  var maxDateToRead = 0
+  //  if (!intArray.isEmpty) {
+  //    maxDateToRead = intArray.maxBy(x => x)
+  //  }
+  //
+  //  if (maxDateToRead != 0 && write_mode == "1") {
 
-  val hdfsFile = hdfs
-    .listStatus(hdfsFolder)
-    .map(_.getPath)
-    .filter(_.getName.startsWith("20"))
-    .map(_.toString.split("/").lastOption)
-
-  val intArray = hdfsFile.flatMap(s => Try(s.getOrElse("").toInt).toOption)
-
-  var maxDateToRead = 0
-  if (!intArray.isEmpty) {
-    maxDateToRead = intArray.maxBy(x => x)
-  }
-
-  if (maxDateToRead != 0 && write_mode == "1") {
+  if (write_mode == "1") {
 
     //reading existing matrix users-items
     val users_items = spark
       .read
-      .parquet(output_dir + s"""/${maxDateToRead}""")
+      .parquet(output_dir + "/*")
       .na.drop("Any", "uid" :: Nil)
       .filter('uid =!= "")
 
