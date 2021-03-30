@@ -44,15 +44,6 @@ object agg extends App {
     .select(from_json($"value", jsonSchema).as("data"))
     .select("data.*")
 
-//  def addTime = udf {(timestamp:Long) => {
-//
-//    val time = Instant.ofEpochMilli(timestamp)
-//    val timeUtc = ZonedDateTime.ofInstant(time, ZoneId.of("UTC"))
-//    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
-//    dateTimeFormatter.format(timeUtc)
-//  }
-//  }
-
   val parsedWithDate = parsedJson
       .withColumn("date", ('timestamp/1000).cast(TimestampType))
 
