@@ -54,7 +54,6 @@ object test extends App {
     webLogsSplitted2
       .withColumn("host", lower(callUDF("parse_url", $"url", lit("HOST"))))
       .withColumn("domain", regexp_replace($"host", "www.", ""))
-      .na.drop("Any", "domain"::Nil)
 
   val test =
     cleanLogs2
@@ -75,8 +74,8 @@ object test extends App {
   val writer = result
     .writeStream
     .format("kafka")
-         .trigger(Trigger.Once())
-//    .trigger(Trigger.ProcessingTime("300 seconds"))
+//         .trigger(Trigger.Once())
+    .trigger(Trigger.ProcessingTime("300 seconds"))
     .option("kafka.bootstrap.servers", "spark-master-1:6667")
     .option("topic", "konstantin_rebrin_lab07_out")
     .option("checkpointLocation", "/user/konstantin.rebrin/chk/konstantin_rebrin_lab07")
