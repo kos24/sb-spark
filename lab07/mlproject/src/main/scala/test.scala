@@ -74,8 +74,8 @@ object test extends App {
   val writer = result
     .writeStream
     .format("kafka")
-    //     .trigger(Trigger.Once())
-    .trigger(Trigger.ProcessingTime("10 seconds"))
+         .trigger(Trigger.Once())
+//    .trigger(Trigger.ProcessingTime("10 seconds"))
     .option("kafka.bootstrap.servers", "spark-master-1:6667")
     .option("topic", "konstantin_rebrin_lab07_out")
     .option("checkpointLocation", "/user/konstantin.rebrin/chk/konstantin_rebrin_lab07")
