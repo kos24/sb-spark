@@ -20,7 +20,8 @@ object test extends App {
   val kafkaParams = Map(
     "kafka.bootstrap.servers" -> "spark-master-1:6667",
     "subscribe" -> "konstantin_rebrin",
-    "startingOffsets" -> """earliest"""
+//    "startingOffsets" -> """earliest"""
+    "startingOffsets" -> """latest"""
     //    "maxOffsetsPerTrigger" -> "10"
   )
 
