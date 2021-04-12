@@ -39,7 +39,6 @@ object train extends App {
     webLogsSplitted
       .withColumn("host", lower(callUDF("parse_url", $"url", lit("HOST"))))
       .withColumn("domain", regexp_replace($"host", "www.", ""))
-      .na.drop("Any", "domain"::Nil)
 
   val training =
     cleanLogs
